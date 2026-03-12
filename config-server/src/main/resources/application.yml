@@ -1,0 +1,12 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: file://C:\Users\lahir\Documents\IJSE\3rd Sem\ADD 2\Automated-Greenhouse-Management-System\config-repo
+          default-label: main
+          force-pull: true
