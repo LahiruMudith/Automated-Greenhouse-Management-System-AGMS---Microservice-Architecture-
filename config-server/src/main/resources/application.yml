@@ -8,5 +8,5 @@ spring:
       server:
         git:
           uri: file://C:\Users\lahir\Documents\IJSE\3rd Sem\ADD 2\Automated-Greenhouse-Management-System\config-repo
-          default-label: main
+          default-label: master
           force-pull: true

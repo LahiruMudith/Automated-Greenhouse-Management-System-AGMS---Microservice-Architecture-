@@ -2,4 +2,16 @@ spring:
   application:
     name: api-gateway
   config:
-    import: "optional:configserver:http://localhost:8888" # Point to your Config Server
+    import: "optional:configserver:http://localhost:8888"
+  cloud:
+    config:
+      fail-fast: true
+#  cloud:
+#    gateway:
+#      server:
+#        webflux:
+#          routes:
+#            - id: zone-service-route
+#              uri: lb://zone-management-service
+#              predicates:
+#                - Path=/api/zones/**
