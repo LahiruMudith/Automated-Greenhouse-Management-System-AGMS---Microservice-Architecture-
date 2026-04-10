@@ -1,0 +1,24 @@
+### Maven
+target/
+*.jar
+*.war
+*.ear
+*.class
+
+### IDE files
+.idea/
+*.iml
+.project
+.classpath
+.settings/
+*.eclipse
+
+### VS Code
+.vscode/
+
+### macOS
+.DS_Store
+
+### Logs
+*.log
+logs/

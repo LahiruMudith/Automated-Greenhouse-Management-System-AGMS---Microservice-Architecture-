@@ -1,17 +1,12 @@
 server:
   port: 8080
 
+jwt:
+  secret: "v1le3lu7htZH0fr6vlHRX7a2diyrn9kT35mHwEiXkfn"
+
 spring:
-  application:
-    name: api-gateway
-  config:
-    import: "optional:configserver:http://localhost:8888"
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true
       routes:
         - id: zone-service
           uri: lb://zone-service
@@ -29,19 +24,3 @@ spring:
           uri: lb://crop-service
           predicates:
             - Path=/api/crops/**
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-  instance:
-    prefer-ip-address: true
-
-jwt:
-  secret: "pP4WfSgQSWKD6GTfPyx5VCWHzicXNNGSPAKUsqaEHz3"
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,routes

@@ -1,0 +1,17 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/zone_db?createDatabaseIfNotExist=true
+    username: root
+    password: 1212
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+iot:
+  api:
+    base-url: http://localhost:9090/api
+    username: lahiru
+    password: 123456
