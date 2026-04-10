@@ -14,7 +14,6 @@ target/
 *.eclipse
 
 ### VS Code
-.vscode/
 
 ### macOS
 .DS_Store
@@ -22,3 +21,5 @@ target/
 ### Logs
 *.log
 logs/
+config.bat
+node_modules
