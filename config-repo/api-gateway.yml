@@ -2,7 +2,7 @@ server:
   port: 8080
 
 jwt:
-  secret: "v1le3lu7htZH0fr6vlHRX7a2diyrn9kT35mHwEiXkfn"
+  secret: "bcd5bcc8555ca7d9f7cf971aecd33dc631a3b61bef110dcc2ba3634d4aaaf93d"
 
 spring:
   cloud:
