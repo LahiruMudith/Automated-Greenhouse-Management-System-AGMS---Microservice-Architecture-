@@ -16,9 +16,9 @@ eureka:
 
 iot:
   api:
-    base-url: http://104.211.95.241:8080/api
-    username: admin
-    password: admin
+    base-url: http://localhost:9090/api
+    username: lahiru
+    password: 123456
 
 management:
   endpoints:

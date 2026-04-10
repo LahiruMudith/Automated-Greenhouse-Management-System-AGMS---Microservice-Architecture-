@@ -26,13 +26,30 @@ public class CropController {
     }
 
     @PutMapping("/{id}/status")
-    public ResponseEntity<?> updateStatus(@PathVariable Long id,
-                                              @RequestBody Map<String, String> body) {
-        String status = body.get("status");
+    public ResponseEntity<?> updateStatus(@PathVariable("id") Long id,
+                                          @RequestBody Map<String, String> body) {
+        String status = (body == null) ? null : body.get("status");
+        System.out.println("updateStatus called - id: " + id + ", status: " + status);
+
         if (status == null || status.isBlank()) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Request body must contain a non-blank 'status' field"));
+            System.out.println("updateStatus bad request - missing/blank status");
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", "Request body must contain a non-blank 'status' field"));
         }
-        return ResponseEntity.ok(cropService.updateStatus(id, status));
+
+        try {
+            Object updated = cropService.updateStatus(id, status);
+            System.out.println("updateStatus success - id: " + id + ", newStatus: " + status);
+            return ResponseEntity.ok(updated);
+        } catch (IllegalArgumentException e) {
+            // good for "invalid status value" cases
+            System.out.println("updateStatus illegal argument - " + e.getMessage());
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            // prevents generic 500 without info
+            System.out.println("updateStatus error - " + e.getClass().getName() + ": " + e.getMessage());
+            return ResponseEntity.status(500).body(Map.of("error", "Internal Server Error"));
+        }
     }
 
     @GetMapping
