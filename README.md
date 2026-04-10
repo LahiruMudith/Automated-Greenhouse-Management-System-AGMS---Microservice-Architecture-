@@ -38,59 +38,108 @@ A microservice-based application built with **Spring Boot 3** and **Spring Cloud
 
 ## Prerequisites
 
-- Java 17+
-- Maven 3.9+
-- Docker & Docker Compose
+| Tool | Version | Notes |
+|------|---------|-------|
+| Java | 17+ | `java -version` to verify |
+| Maven | 3.9+ | `mvn -version` to verify |
+| Docker & Docker Compose | any recent | needed for MySQL + MongoDB |
 
-## Quick Start
+## Startup Order
 
-### 1. Start infrastructure (MySQL + MongoDB)
+> **Infrastructure services must be fully up before domain services are started.**
+> Start each step in a new terminal and wait for it to be ready before moving on.
+
+### Step 1 — Databases (Docker)
 
 ```bash
 docker-compose up -d
 ```
 
-### 2. Start Config Server
+Verify MySQL (port 3306) and MongoDB (port 27017) are running:
+
+```bash
+docker-compose ps
+```
+
+---
+
+### Step 2 — Config Server (port 8888)
 
 ```bash
 cd config-server
 mvn spring-boot:run
 ```
-Wait for it to start on port **8888**.
 
-### 3. Start Eureka Server
+**Verify:** Open [http://localhost:8888/actuator/health](http://localhost:8888/actuator/health)  
+Expected response: `{"status":"UP"}`
+
+Also check it serves config:  
+[http://localhost:8888/zone-service/default](http://localhost:8888/zone-service/default)
+
+---
+
+### Step 3 — Eureka Server (port 8761)
 
 ```bash
 cd eureka-server
 mvn spring-boot:run
 ```
-Wait for it to start on port **8761**. Visit [http://localhost:8761](http://localhost:8761) to see the Eureka dashboard.
 
-### 4. Start API Gateway
+**Verify:** Open the Eureka dashboard → [http://localhost:8761](http://localhost:8761)  
+You should see "Instances currently registered with Eureka" (empty at this point).
+
+---
+
+### Step 4 — API Gateway (port 8080)
 
 ```bash
 cd api-gateway
 mvn spring-boot:run
 ```
-Starts on port **8080**.
 
-### 5. Start Domain Services (in any order)
+**Verify:** [http://localhost:8080/actuator/health](http://localhost:8080/actuator/health) → `{"status":"UP"}`  
+`API-GATEWAY` should now appear in the Eureka dashboard.
+
+---
+
+### Step 5 — Domain Services
+
+Start each in its own terminal. Order does not matter, but all four should be up before testing:
 
 ```bash
-# Terminal 1
-cd zone-service && mvn spring-boot:run
+# Terminal A — Zone Service (port 8081)
+cd zone-service
+mvn spring-boot:run
 
-# Terminal 2
-cd sensor-service && mvn spring-boot:run
+# Terminal B — Sensor Service (port 8082)
+cd sensor-service
+mvn spring-boot:run
 
-# Terminal 3
-cd automation-service && mvn spring-boot:run
+# Terminal C — Automation Service (port 8083)
+cd automation-service
+mvn spring-boot:run
 
-# Terminal 4
-cd crop-service && mvn spring-boot:run
+# Terminal D — Crop Service (port 8084)
+cd crop-service
+mvn spring-boot:run
 ```
 
-### 6. Build all modules from root
+**Verify all services are UP:**  
+Open [http://localhost:8761](http://localhost:8761) — you should see all five instances registered with status **UP**:
+
+| Service | Port |
+|---------|------|
+| API-GATEWAY | 8080 |
+| ZONE-SERVICE | 8081 |
+| SENSOR-SERVICE | 8082 |
+| AUTOMATION-SERVICE | 8083 |
+| CROP-SERVICE | 8084 |
+
+See [docs/eureka-dashboard.png](docs/eureka-dashboard.png) for a reference screenshot of the Eureka dashboard with all services registered.
+
+---
+
+### Build all modules from root (optional)
 
 ```bash
 mvn clean install -DskipTests
@@ -152,7 +201,12 @@ curl -X PUT http://localhost:8080/api/crops/1/status \
 
 ## Postman Collection
 
-Import `postman/AGMS.postman_collection.json` into Postman. Set the `jwt_token` variable to a valid signed JWT.
+The API collection is available in two locations:
+
+- **Root:** [`AGMS.postman_collection.json`](AGMS.postman_collection.json) — import directly from the repo root
+- **Folder:** `postman/AGMS.postman_collection.json`
+
+Import either file into Postman. After importing, set the collection variable `jwt_token` to a valid signed JWT.
 
 ## JWT Token Generation (for testing)
 
