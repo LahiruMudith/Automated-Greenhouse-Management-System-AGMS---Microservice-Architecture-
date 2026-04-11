@@ -42,28 +42,37 @@ A microservice-based application built with **Spring Boot 3** and **Spring Cloud
 |------|---------|-------|
 | Java | 17+ | `java -version` to verify |
 | Maven | 3.9+ | `mvn -version` to verify |
-| Docker & Docker Compose | any recent | needed for MySQL + MongoDB |
+
+[//]: # (| Docker & Docker Compose | any recent | needed for MySQL + MongoDB |)
 
 ## Startup Order
 
 > **Infrastructure services must be fully up before domain services are started.**
 > Start each step in a new terminal and wait for it to be ready before moving on.
 
-### Step 1 — Databases (Docker)
+[//]: # (### Step 1 — Databases &#40;Docker&#41;)
 
-```bash
-docker-compose up -d
-```
+[//]: # ()
+[//]: # (```bash)
 
-Verify MySQL (port 3306) and MongoDB (port 27017) are running:
+[//]: # (docker-compose up -d)
 
-```bash
-docker-compose ps
-```
+[//]: # (```)
 
----
+[//]: # ()
+[//]: # (Verify MySQL &#40;port 3306&#41; and MongoDB &#40;port 27017&#41; are running:)
 
-### Step 2 — Config Server (port 8888)
+[//]: # ()
+[//]: # (```bash)
+
+[//]: # (docker-compose ps)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (---)
+
+### Step 1 — Config Server (port 8888)
 
 ```bash
 cd config-server
@@ -78,7 +87,7 @@ Also check it serves config:
 
 ---
 
-### Step 3 — Eureka Server (port 8761)
+### Step 2 — Eureka Server (port 8761)
 
 ```bash
 cd eureka-server
@@ -90,7 +99,7 @@ You should see "Instances currently registered with Eureka" (empty at this point
 
 ---
 
-### Step 4 — API Gateway (port 8080)
+### Step 3 — API Gateway (port 8080)
 
 ```bash
 cd api-gateway
@@ -102,7 +111,7 @@ mvn spring-boot:run
 
 ---
 
-### Step 5 — Domain Services
+### Step 4 — Domain Services
 
 Start each in its own terminal. Order does not matter, but all four should be up before testing:
 
@@ -136,6 +145,8 @@ Open [http://localhost:8761](http://localhost:8761) — you should see all five 
 | CROP-SERVICE | 8084 |
 
 See [docs/eureka-dashboard.png](docs/eureka-dashboard.png) for a reference screenshot of the Eureka dashboard with all services registered.
+
+![Eureka Dashboard](docs/eureka-dashboard.png)
 
 ---
 
