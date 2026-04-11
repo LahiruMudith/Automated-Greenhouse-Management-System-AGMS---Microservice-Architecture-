@@ -144,7 +144,6 @@ Open [http://localhost:8761](http://localhost:8761) — you should see all five 
 | AUTOMATION-SERVICE | 8083 |
 | CROP-SERVICE | 8084 |
 
-See [docs/eureka-dashboard.png](docs/eureka-dashboard.png) for a reference screenshot of the Eureka dashboard with all services registered.
 
 ![Eureka Dashboard](docs/eureka-dashboard.png)
 
